@@ -62,29 +62,29 @@ def getWeather():
         return
     else:
         global K, type
-        url = 'http://wthrcdn.etouch.cn/weather_mini?city=' + area
+        url = 'http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&needMoreData=true&pageNo=1&pageSize=7&city='+ area
         hea = {'User-Agent': 'Mozilla/5.0'}
         r = requests.get(url=url, headers=hea)
         if r.status_code == 200:
             result = r.text
             res = json.loads(result)
-            if "多云" in res['data']['forecast'][0]['type']:
+            if "多云" in res['data']['list'][0]['weather']:
                 K = K_dict["多云"]
-            elif "阴" in res['data']['forecast'][0]['type']:
+            elif "阴" in res['data']['list'][0]['weather']:
                 K = K_dict["阴"]
-            elif "小雨" in res['data']['forecast'][0]['type']:
+            elif "小雨" in res['data']['list'][0]['weather']:
                 K = K_dict["小雨"]
-            elif "中雨" in res['data']['forecast'][0]['type']:
+            elif "中雨" in res['data']['list'][0]['weather']:
                 K = K_dict["中雨"]
-            elif "大雨" in res['data']['forecast'][0]['type']:
+            elif "大雨" in res['data']['list'][0]['weather']:
                 K = K_dict["大雨"]
-            elif "暴雨" in res['data']['forecast'][0]['type']:
+            elif "暴雨" in res['data']['list'][0]['weather']:
                 K = K_dict["暴雨"]
-            elif "大暴雨" in res['data']['forecast'][0]['type']:
+            elif "大暴雨" in res['data']['list'][0]['weather']:
                 K = K_dict["大暴雨"]
-            elif "特大暴雨" in res['data']['forecast'][0]['type']:
+            elif "特大暴雨" in res['data']['list'][0]['weather']:
                 K = K_dict["特大暴雨"]
-            type = res['data']['forecast'][0]['type']
+            type = res['data']['list'][0]['weather']
         else:
             print("获取天气情况出错")
 
@@ -96,7 +96,7 @@ def getBeijinTime():
     type = ""
     hea = {'User-Agent': 'Mozilla/5.0'}
     url = r'http://time1909.beijing-time.org/time.asp'
-    if open_get_weather:
+    if open_get_weather == "True":
         getWeather()
     r = requests.get(url=url, headers=hea)
     if r.status_code == 200:
@@ -325,7 +325,7 @@ def get_access_token():
 
 
 def run(msg):
-    if position:
+    if position == "true":
         data = {
             "touser": touser,
             "toparty": toparty,
